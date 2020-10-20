@@ -1,10 +1,14 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Getting Started: Serving Web Content</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-</head>
-<body>
-<p>Hello, ${name}</p>
-</body>
-</html>
+<#import "parts/common.ftlh" as common>
+
+<@common.page>
+    <p/>
+    <style>
+        .fig {
+            text-align: center; /* Выравнивание по центру */
+        }
+    </style>
+    <p class="fig">
+        <img height="400" align="center" src="/images/original.gif">
+    </p>
+
+</@common.page>

@@ -19,6 +19,7 @@
     </head>
 
     <body class="text-center">
+    ${message?if_exists}
     <@l.login "/login" false/>
     </body>
 </html>

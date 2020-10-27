@@ -2,13 +2,17 @@
 
     <form class="form-signin" action="${path}" method="post">
         <img class="mb-4" src="/images/hand-drawn-pencil-icon.svg" alt="" width="92" height="92">
+        <h2 class="h3 mb-3 font-weight-normal">${message?if_exists}</h2>
         <#if !isRegisterForm>
             <h1 class="h3 mb-3 font-weight-normal">Login to Not a Blog</h1>
         <#else>
             <h1 class="h3 mb-3 font-weight-normal">Add new user</h1>
         </#if>
-        <label for="inputEmail" class="sr-only">Username</label>
+        <label class="sr-only">Username</label>
         <input type="text" name="username" class="form-control" placeholder="Username" required autofocus>
+        <#if isRegisterForm>
+            <input type="email" name="email" class="form-control" placeholder="some@example.com" required>
+        </#if>
         <label for="inputPassword" class="sr-only">Password</label>
         <input type="password" name="password" class="form-control" placeholder="Password" required>
         <input type="hidden" name="_csrf" value="${_csrf.token}">

@@ -10,6 +10,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" type="image/x-icon" href="/images/hand-drawn-pencil-icon.svg"/>
+    <
 
     <title>not a blog</title>
 
@@ -24,7 +25,6 @@
 </head>
 
 <body>
-
 <div class="container">
     <header class="blog-header py-3">
         <div class="row flex-nowrap justify-content-between align-items-center">

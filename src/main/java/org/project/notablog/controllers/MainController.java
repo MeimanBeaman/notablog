@@ -53,12 +53,18 @@ public class MainController {
     @PostMapping("/main")
     public String add(
                 @AuthenticationPrincipal User user,
+                @RequestParam String postTitle,
                 @RequestParam String text,
                 @RequestParam String tag,
                 @RequestParam("file") MultipartFile file,
                 Model model) throws IOException {
         Date date = new Date();
-        Message message = new Message(text, tag, user, date);
+
+        tag = tag.toLowerCase();
+        tag = tag.replace(" ", "_");
+        text = text.replace("\n", "<br>");
+
+        Message message = new Message(postTitle, text, tag, user, date);
 
         if (file != null && !file.getOriginalFilename().isEmpty()) {
             File uploadDir = new File(uploadPath);

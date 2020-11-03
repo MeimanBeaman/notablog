@@ -1,6 +1,5 @@
 package org.project.notablog.domains;
 
-import javax.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.Length;
 import javax.persistence.*;
 import java.util.Date;
@@ -10,6 +9,8 @@ public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+
+    private String postTitle;
 
     @Length(max = 4096, message = "Message too long (more than 2kB)")
     private String text;
@@ -27,7 +28,8 @@ public class Message {
     public Message() {
     }
 
-    public Message(String text, String tag, User user, Date date) {
+    public Message(String postTitle, String text, String tag, User user, Date date) {
+        this.postTitle = postTitle;
         this.text = text;
         this.tag = tag;
         this.author = user;
@@ -84,5 +86,13 @@ public class Message {
 
     public void setFilename(String filename) {
         this.filename = filename;
+    }
+
+    public String getPostTitle() {
+        return postTitle;
+    }
+
+    public void setPostTitle(String postTitle) {
+        this.postTitle = postTitle;
     }
 }

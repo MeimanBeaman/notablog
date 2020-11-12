@@ -4,6 +4,7 @@ import org.project.notablog.domains.Role;
 import org.project.notablog.domains.User;
 import org.project.notablog.repos.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -25,9 +26,18 @@ public class UserService implements UserDetailsService {
     @Autowired
     PasswordEncoder passwordEncoder;
 
+    @Value("${domain.name}")
+    String domainName;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepo.findByUsername(username);
+        User user = userRepo.findByUsername(username);
+
+        if (user==null) {
+            throw new UsernameNotFoundException("User not found");
+        }
+
+        return user;
     }
 
     public boolean addUser(User user) {
@@ -55,11 +65,10 @@ public class UserService implements UserDetailsService {
     }
 
     private void sendMessage(User user) {
-        //TODO Вынести адрес сайта в property файл
         if(!StringUtils.isEmpty(user.getEmail())){
             String message = String.format(
                     "Hello, %s! \n" +
-                            "Welcome to Not a Blog. To activate your account follow the link: http://localhost:8080/activate/%s",
+                            "Welcome to Not a Blog. To activate your account follow the link: "+ domainName + "/activate/%s",
                             user.getUsername(),
                             user.getActivationCode()
             );
@@ -119,7 +128,7 @@ public class UserService implements UserDetailsService {
         }
 
         if (!StringUtils.isEmpty(password)) {
-            user.setPassword(password);
+            user.setPassword(passwordEncoder.encode(password));
         }
 
         if (isEmailChanged) {

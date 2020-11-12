@@ -2,6 +2,7 @@ package org.project.notablog.domains;
 
 import org.hibernate.validator.constraints.Length;
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 @Entity
@@ -10,10 +11,15 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    @NotBlank(message = "Fill the title")
+    @Length(max = 255, message = "Title too long (more than 4096 symbols)")
     private String postTitle;
 
-    @Length(max = 4096, message = "Message too long (more than 2kB)")
+    @NotBlank(message = "Fill the message")
+    @Length(max = 4096, message = "Message too long (more than 4096 symbols)")
     private String text;
+
+    @Length(max = 64, message = "Tag too long")
     private String tag;
 
     @Temporal(TemporalType.TIMESTAMP)

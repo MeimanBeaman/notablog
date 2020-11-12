@@ -6,6 +6,7 @@ import org.project.notablog.domains.MessageComment;
 import org.project.notablog.domains.User;
 import org.project.notablog.repos.MessageRepo;
 import org.project.notablog.repos.CommentsRepo;
+import org.project.notablog.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -24,6 +25,9 @@ public class PostController {
 
     @Autowired
     private CommentsRepo commentsRepo;
+
+    @Autowired
+    MessageService messageService;
 
     //TODO переделать
     @GetMapping("{postId}")
@@ -47,6 +51,10 @@ public class PostController {
             Model model) {
         Date date = new Date();
         Message message = messageRepo.findById(postId).get();
+
+        //TODO перенести в MessageService
+        text = text.replace("\n", "<br>");
+
         MessageComment messageComment = new MessageComment(message, user, text, date);
         commentsRepo.save(messageComment);
 

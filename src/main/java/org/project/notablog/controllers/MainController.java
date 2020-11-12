@@ -3,23 +3,30 @@ package org.project.notablog.controllers;
 import org.project.notablog.domains.Message;
 import org.project.notablog.domains.User;
 import org.project.notablog.repos.MessageRepo;
+import org.project.notablog.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
+import java.util.Map;
 import java.util.UUID;
 
 @Controller
 public class MainController {
+    @Autowired
+    MessageService messageService;
+
     @Autowired
     private MessageRepo messageRepo;
 
@@ -53,38 +60,45 @@ public class MainController {
     @PostMapping("/main")
     public String add(
                 @AuthenticationPrincipal User user,
-                @RequestParam String postTitle,
-                @RequestParam String text,
-                @RequestParam String tag,
-                @RequestParam("file") MultipartFile file,
-                Model model) throws IOException {
+                @Valid Message message,
+                BindingResult bindingResult,
+                Model model,
+                @RequestParam("file") MultipartFile file
+    ) throws IOException {
         Date date = new Date();
+        message.setAuthor(user);
 
-        tag = tag.toLowerCase();
-        tag = tag.replace(" ", "_");
-        text = text.replace("\n", "<br>");
+        //TODO Разобрать еще раз
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
+            model.mergeAttributes(errorsMap);
+        } else {
+            message.setDate(date);
+            messageService.tagFormatting(message);
+            messageService.textFormatting(message);
 
-        Message message = new Message(postTitle, text, tag, user, date);
+            if (file != null && !file.getOriginalFilename().isEmpty()) {
+                File uploadDir = new File(uploadPath);
 
-        if (file != null && !file.getOriginalFilename().isEmpty()) {
-            File uploadDir = new File(uploadPath);
+                if (!uploadDir.exists())
+                    uploadDir.mkdir();
 
-            if (!uploadDir.exists())
-                uploadDir.mkdir();
+                String uuidFile = UUID.randomUUID().toString();
+                String resultFilename = uuidFile + "." + file.getOriginalFilename();
 
-            String uuidFile = UUID.randomUUID().toString();
-            String resultFilename = uuidFile + "." + file.getOriginalFilename();
+                file.transferTo(new File(uploadPath + "/" + resultFilename));
 
-            file.transferTo(new File(uploadPath + "/" + resultFilename));
+                message.setFilename(resultFilename);
+            }
+            model.addAttribute("message", null);
 
-            message.setFilename(resultFilename);
+            messageRepo.save(message);
         }
-
-        messageRepo.save(message);
 
         Iterable<Message> messages = messageRepo.findAll();
 
         model.addAttribute("messages", messages);
-        return "main";
+        return "redirect:/main";
     }
+
 }

@@ -2,87 +2,118 @@
 <#import "parts/login.ftlh" as l>
 
 <@common.page>
-    <div class="row">
-        <div class="col-md-8 blog-main">
-            <#--<div class="card-columns">-->
-            <#list messages as message>
-                <div class="blog-post border-bottom">
-                    <h4><img class="avatar mr-3" src="/images/iconfinder_avatar_1814089.png">${message.postTitle}</h4>
-                    <i><a href="/main?filter=${message.tag}">#${message.tag?lower_case}</a></i>
-                    <p class="blog-post-meta">${message.date?datetime} by <a href="#"> ${message.authorName}</a></p>
-                    <#if message.filename??>
-                        <figure class="figure">
-                            <img src="/img/${message.filename}" class="figure-img img-fluid rounded" alt="...">
-                        </figure>
-                    </#if>
-                    <p><p class="card-text">${message.text?no_esc}</p>
-                    <p class="blog-post-meta"><a href="/post/${message.id}"><b>Comments</b></a></p>
+    <div class="container">
+        <div class="row">
 
-                </div>
+            <!-- Post Content Column -->
 
-            <#else>
-                No message
-            </#list>
-            <#--</div>-->
+            <div class="col-lg-8">
+                <#list messages as message>
+                    <div class="mt-5">
+                        <!-- Post title -->
+                        <h1 class="mt-4">${message.postTitle}</h1>
+                        <p class="lead">
+                            by
+                            <a href="#">${message.authorName}</a>
+                            <img width="25" src="/images/iconfinder_avatar_1814089.png">
+                        </p>
+                        <hr>
 
-            <nav class="blog-pagination">
-                <a class="btn btn-outline-primary" href="#">еще не работает</a>
-                <a class="btn btn-outline-secondary disabled" href="#">еще не работает</a>
-            </nav>
+                        <!-- Post date -->
+                        <p>Posted ${message.date?datetime}</p>
 
-        </div><!-- /.blog-main -->
+                        <hr>
 
-        <aside class="col-md-4 blog-sidebar">
+                        <!-- Post Image -->
+                        <#if message.filename??>
+                            <img src="/img/${message.filename}" class="img-fluid rounded" alt="">
+                            <hr>
+                        </#if>
 
-            <div class="p-3 mb-3 rounded">
+                        <#-- Post text -->
+                        <p>
+                        <p class="card-text">${message.text?no_esc}</p>
 
-                <a class="btn btn-primary" data-toggle="collapse" href="#AddMessageForm" role="button" aria-expanded="false" aria-controls="collapseExample">
-                    Add new message
-                </a>
 
-                <div class="collapse" id="AddMessageForm">
-                    <div class="form-group mt-3">
-                        <form method="post" enctype="multipart/form-data">
-                            <div class="form-group">
-                                <input type="text" class="form-control" name="postTitle" placeholder="Enter title">
+                        <p class="blog-post-meta">
+                            <a href="/post/${message.id}"><b>Comments</b></a>
+                            <i><a href="/main?filter=${message.tag}">#${message.tag?lower_case}</a></i>
+                        </p>
+
+                        <hr>
+                        <br>
+
+                    </div>
+
+                <#else>
+                    <h4 class="h4">Messages not found</h4>
+                </#list>
+            </div><!-- /.blog-main -->
+
+
+            <aside class="col-md-4 blog-sidebar">
+
+                <div class="mt-3  rounded">
+                    <div class="card">
+                        <h5 class="card-header">
+                            <a class="btn btn-secondary" data-toggle="collapse" href="#AddMessageForm" role="button">
+                                Add new message
+                            </a>
+                        </h5>
+
+                        <div class="collapse <#if message??>show</#if>" id="AddMessageForm">
+                            <div class="form-group mt-3">
+                                <form method="post" enctype="multipart/form-data">
+                                    <div class="form-group">
+                                        <input type="text"
+                                               class="form-control ${(postTitleError??)?string('is-invalid', '')}"
+                                               value="<#if message??>${message.postTitle}</#if>"
+                                               name="postTitle" placeholder="Enter title">
+                                        <#if postTitleError??>
+                                            <div class="invalid-feedback">
+                                                ${postTitleError}
+                                            </div>
+                                        </#if>
+                                    </div>
+                                    <div class="form-group">
+                                <textarea class="form-control ${(textError??)?string('is-invalid', '')}"
+                                          name="text" rows="6"
+                                          placeholder="Enter message. You can use HTML tags here"><#if message??>${message.text}</#if></textarea>
+                                        <#if textError??>
+                                            <div class="invalid-feedback">
+                                                ${textError}
+                                            </div>
+                                        </#if>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control ${(tagError??)?string('is-invalid', '')}"
+                                               value="<#if message??>${message.tag}</#if>"
+                                               name="tag" placeholder="Enter tag">
+                                        <#if tagError??>
+                                            <div class="invalid-feedback">
+                                                ${tagError}
+                                            </div>
+                                        </#if>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="custom-file">
+                                            <label class="custom-file-label" for="messageFile">Choose file</label>
+                                            <input type="file" class="custom-file-input" name="file" id="messageFile">
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="_csrf" value="${_csrf.token}">
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-primary">Send</button>
+                                    </div>
+                                </form>
                             </div>
-                            <div class="form-group">
-                                <textarea class="form-control" name="text" rows="6" placeholder="Enter message. You can use HTML tags here"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <input type="text" class="form-control" name="tag" placeholder="Enter tag">
-                            </div>
-                            <div class="form-group">
-                                <div class="custom-file">
-                                    <input type="file" class="form-control" name="file" id="messageFile">
-                                    <label class="custom-file-label" for="messageFile">Choose file</label>
-                                </div>
-                            </div>
-                            <input type="hidden" name="_csrf" value="${_csrf.token}">
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-primary">Send</button>
-                            </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="p-3">
-                <h4 class="font-italic">Archives</h4>
-                <ol class="list-unstyled mb-0">
-                    <li><a href="#">March 2014</a></li>
 
-                </ol>
-            </div>
+            </aside><!-- /.blog-sidebar -->
 
-            <div class="p-3">
-                <h4 class="font-italic">Elsewhere</h4>
-                <ol class="list-unstyled">
-                    <li><a href="#">GitHub</a></li>
-
-                </ol>
-            </div>
-        </aside><!-- /.blog-sidebar -->
-
-    </div><!-- /.row -->
+        </div><!-- /.row -->
+    </div>
 </@common.page>

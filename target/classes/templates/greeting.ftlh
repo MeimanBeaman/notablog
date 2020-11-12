@@ -8,7 +8,7 @@
         }
     </style>
     <p class="fig">
-        <img height="400" align="center" src="/images/original.gif">
+        <img align="center" class="img-fluid rounded" src="/images/original.gif">
     </p>
 
 </@common.page>

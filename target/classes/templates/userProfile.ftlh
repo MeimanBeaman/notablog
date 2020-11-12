@@ -1,9 +1,13 @@
 <#import "parts/common.ftlh" as common>
 
 <@common.page>
-    <div class="row m-md-5">
-        <div class="col-md-8 blog-main">
-            <#--<div class="card-columns">-->
+<div class="container">
+    <div class="row mt-5">
+
+        <!-- Post Content Column -->
+
+        <div class="col-lg-8">
+
             <h5>${username}</h5>
 
 
@@ -27,10 +31,5 @@
 
         </div><!-- /.blog-main -->
 
-        <aside class="col-md-4 blog-sidebar">
-
-
-        </aside><!-- /.blog-sidebar -->
-
-    </div><!-- /.row -->
+ </div><!-- /.row -->
 </@common.page>

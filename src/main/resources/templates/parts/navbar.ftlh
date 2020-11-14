@@ -2,12 +2,13 @@
 <#import "login.ftlh" as l>
 
 
-<nav class="navbar navbar-expand-lg navbar-light   fixed-top" style="background-color: #81bbfd;">
+<nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #81bbfd;">
     <div class="container">
         <a class="navbar-brand" href="/">
             <img src="/images/hand-drawn-pencil-icon.svg" width="30" height="30" class="d-inline-block align-top" alt=""
                  loading="lazy">
-            not a blog</a>
+            not a blog
+        </a>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
                 aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">

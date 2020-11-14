@@ -26,7 +26,7 @@
 
                         <!-- Post Image -->
                         <#if message.filename??>
-                            <img src="/img/${message.filename}" class="img-fluid rounded" alt="">
+                            <img width="500" src="/img/${message.filename}" class="img-fluid rounded" alt="">
                             <hr>
                         </#if>
 
@@ -61,6 +61,7 @@
                             </a>
                         </h5>
 
+                        <div class="card-body">
                         <div class="collapse <#if message??>show</#if>" id="AddMessageForm">
                             <div class="form-group mt-3">
                                 <form method="post" enctype="multipart/form-data">
@@ -108,6 +109,7 @@
                                 </form>
                             </div>
                         </div>
+                    </div>
                     </div>
                 </div>
 

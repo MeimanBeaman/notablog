@@ -30,7 +30,8 @@
                     </#if>
 
                     <#-- Post text -->
-                    <p><p class="card-text">${message.text?no_esc}</p>
+                    <p>
+                    <p class="card-text">${message.text?no_esc}</p>
 
                     <br>
 

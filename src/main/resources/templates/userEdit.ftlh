@@ -10,7 +10,7 @@
 
                 <h1 align="center">User editor</h1>
                 <div class="form-group row mt-3">
-                    <form action="/user" method="post">
+                    <form action="/admin" method="post">
                         <div class="form-group">
                             <input type="text" class="form-control" value="${user.username}" name="username">
                         </div>

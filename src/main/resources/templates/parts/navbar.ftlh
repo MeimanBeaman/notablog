@@ -7,7 +7,7 @@
         <a class="navbar-brand" href="/">
             <img src="/images/hand-drawn-pencil-icon.svg" width="30" height="30" class="d-inline-block align-top" alt=""
                  loading="lazy">
-            not a blog
+            Not a Blog
         </a>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
@@ -31,9 +31,14 @@
                 <li class="nav-item <#--active-->">
                     <a class="nav-link" href="/main">My feed</a>
                 </li>
+                <#if know>
+                <li class="nav-item <#--active-->">
+                    <a class="nav-link" href="/user/${currentUserId}">My page</a>
+                </li>
+                </#if>
                 <#if isAdmin>
                     <li class="nav-item">
-                        <ins><a class="nav-link" href="/user">User list</a></ins>
+                        <ins><a class="nav-link" href="/admin">User list</a></ins>
                     </li>
                 </#if>
                 <#if know>

@@ -68,8 +68,9 @@ public class UserService implements UserDetailsService {
         if(!StringUtils.isEmpty(user.getEmail())){
             String message = String.format(
                     "Hello, %s! \n" +
-                            "Welcome to Not a Blog. To activate your account follow the link: "+ domainName + "/activate/%s",
+                            "Welcome to Not a Blog. To activate your account follow the link: %s/activate/%s",
                             user.getUsername(),
+                            domainName,
                             user.getActivationCode()
             );
 
@@ -135,6 +136,16 @@ public class UserService implements UserDetailsService {
             sendMessage(user);
         }
 
+        userRepo.save(user);
+    }
+
+    public void subscribe(User currentUser, User user) {
+        user.getSubscribers().add(currentUser);
+        userRepo.save(user);
+    }
+
+    public void unsubscribe(User currentUser, User user) {
+        user.getSubscribers().remove(currentUser);
         userRepo.save(user);
     }
 }

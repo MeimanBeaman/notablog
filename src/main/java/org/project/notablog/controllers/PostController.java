@@ -31,7 +31,7 @@ public class PostController {
 
     //TODO переделать
     @GetMapping("{postId}")
-    public String post(@PathVariable Integer postId,
+    public String post(@PathVariable Long postId,
                        Model model){
         Message message = messageRepo.findById(postId).get();
         Message messageToModel = message;
@@ -45,7 +45,7 @@ public class PostController {
 
     @PostMapping("{postId}")
     public String addComment(
-            @PathVariable Integer postId,
+            @PathVariable Long postId,
             @AuthenticationPrincipal User user,
             @RequestParam String text,
             Model model) {

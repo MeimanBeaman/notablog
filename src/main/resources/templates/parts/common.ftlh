@@ -12,7 +12,7 @@
         <meta name="author" content="">
         <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 
-        <title>not a blog</title>
+        <title>Not a Blog</title>
         <link rel="icon" type="image/x-icon" href="/images/hand-drawn-pencil-icon.svg"/>
 
 

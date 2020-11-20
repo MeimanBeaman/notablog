@@ -51,6 +51,7 @@ public class MainController {
             messages = messageRepo.findAll();
         }
 
+
         model.addAttribute("messages", messages);
         model.addAttribute("filter", filter);
 
@@ -72,33 +73,27 @@ public class MainController {
         if (bindingResult.hasErrors()) {
             Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
             model.mergeAttributes(errorsMap);
+
+            Iterable<Message> messages = messageRepo.findAll();
+
+            model.addAttribute("messages", messages);
+            return "main";
+
         } else {
             message.setDate(date);
-            messageService.tagFormatting(message);
-            messageService.textFormatting(message);
 
-            if (file != null && !file.getOriginalFilename().isEmpty()) {
-                File uploadDir = new File(uploadPath);
-
-                if (!uploadDir.exists())
-                    uploadDir.mkdir();
-
-                String uuidFile = UUID.randomUUID().toString();
-                String resultFilename = uuidFile + "." + file.getOriginalFilename();
-
-                file.transferTo(new File(uploadPath + "/" + resultFilename));
-
-                message.setFilename(resultFilename);
-            }
-            model.addAttribute("message", null);
+            messageService.saveFile(message, file);
 
             messageRepo.save(message);
+
+            Iterable<Message> messages = messageRepo.findAll();
+
+            model.addAttribute("messages", messages);
+            return "redirect:/main";
         }
 
-        Iterable<Message> messages = messageRepo.findAll();
-
-        model.addAttribute("messages", messages);
-        return "redirect:/main";
     }
+
+
 
 }

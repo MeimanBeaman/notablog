@@ -9,7 +9,7 @@ import java.util.Date;
 public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Long id;
 
     @NotBlank(message = "Fill the title")
     @Length(max = 255, message = "Title too long (more than 4096 symbols)")
@@ -18,6 +18,7 @@ public class Message {
     @NotBlank(message = "Fill the message")
     @Length(max = 4096, message = "Message too long (more than 4096 symbols)")
     private String text;
+
 
     @Length(max = 64, message = "Tag too long")
     private String tag;
@@ -46,16 +47,16 @@ public class Message {
         return author != null ? author.getUsername() : "<no author>";
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
     public String getText() {
-        return text;
+        return text.replace("\n", "<br>");
     }
 
     public void setText(String text) {

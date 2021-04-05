@@ -10,13 +10,13 @@
             <!-- Post Content Column -->
             <div class="col-lg-8" id="message-list">
                 <#include "parts/messageList.ftlh">
-                <@p.pager "" page />
+                <@p.pager "feed" page />
             </div><!-- /.blog-main -->
 
 
             <aside class="col-md-4 blog-sidebar">
                 <#--                <@messageEdit.messageEdit/>-->
-                <@p.pager "" page />
+                <@p.pager "feed" page />
                 <#include "parts/messageEdit.ftlh">
             </aside><!-- /.blog-sidebar -->
 

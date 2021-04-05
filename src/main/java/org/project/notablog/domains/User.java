@@ -55,7 +55,7 @@ public class User implements UserDetails {
     )
     private Set<User> subscriptions = new HashSet<>();
 
-
+    private String profileImage;
 
     public User() {
     }
@@ -189,5 +189,13 @@ public class User implements UserDetails {
 
     public void setSubscriptions(Set<User> subscriptions) {
         this.subscriptions = subscriptions;
+    }
+
+    public String getProfileImage() {
+        return profileImage;
+    }
+
+    public void setProfileImage(String profileImage) {
+        this.profileImage = profileImage;
     }
 }

@@ -6,7 +6,7 @@
     <div class="container">
         <a class="navbar-brand" href="/">
             <img src="/images/hand-drawn-pencil-icon.svg" width="30" height="30" class="d-inline-block align-top" alt=""
-                 loading="lazy">
+                 loading="lazy" />
             Not a Blog
         </a>
 
@@ -20,7 +20,7 @@
                     <li class="nav-item">
                         <form method="get" action="/main" class="input-group">
                             <input type="text" name="filter" class="form-control" value="${filter?ifExists}"
-                                   placeholder="Search by tag">
+                                   placeholder="Search by tag" />
                             <span class="input-group-append">
                                 <button class="btn btn-secondary" type="submit">Search</button>
                             </span>
@@ -29,7 +29,7 @@
                 </#if>
 
                 <li class="nav-item <#--active-->">
-                    <a class="nav-link" href="/main">My feed</a>
+                    <a class="nav-link" href="/feed">My feed</a>
                 </li>
                 <#if know>
                 <li class="nav-item <#--active-->">

@@ -1,5 +1,6 @@
 package org.project.notablog.service;
 
+import org.project.notablog.domains.Message;
 import org.project.notablog.domains.Role;
 import org.project.notablog.domains.User;
 import org.project.notablog.repos.UserRepo;
@@ -11,7 +12,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -28,6 +34,9 @@ public class UserService implements UserDetailsService {
 
     @Value("${domain.name}")
     String domainName;
+
+    @Value("${upload.path}" + "/users_pfp")
+    private String uploadPath;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -115,7 +124,7 @@ public class UserService implements UserDetailsService {
         userRepo.save(user);
     }
 
-    public void updateProfile(User user, String email, String password) {
+    public void updateProfile(User user, String email, String password, MultipartFile pfp) throws IOException {
         String currentEmail = user.getEmail();
         boolean isEmailChanged = (email != null && !email.equals(currentEmail) ||
                 currentEmail != null && !currentEmail.equals(email));
@@ -132,6 +141,12 @@ public class UserService implements UserDetailsService {
             user.setPassword(passwordEncoder.encode(password));
         }
 
+        if (!pfp.isEmpty()) {
+            savePfp(user, pfp);
+        } else {
+            System.out.println("пустой");
+        }
+
         if (isEmailChanged) {
             sendMessage(user);
         }
@@ -141,11 +156,30 @@ public class UserService implements UserDetailsService {
 
     public void subscribe(User currentUser, User user) {
         user.getSubscribers().add(currentUser);
+
         userRepo.save(user);
     }
 
     public void unsubscribe(User currentUser, User user) {
         user.getSubscribers().remove(currentUser);
+
         userRepo.save(user);
+    }
+
+    //TODO повторяет код из MessageService, вынести в отдельный сервис
+    public void savePfp(@Valid User user, @RequestParam("file") MultipartFile file) throws IOException {
+        if (file != null && !file.getOriginalFilename().isEmpty()) {
+            File uploadDir = new File(uploadPath);
+
+            if (!uploadDir.exists())
+                uploadDir.mkdir();
+
+            String uuidFile = UUID.randomUUID().toString();
+            String resultFilename = uuidFile + "." + file.getOriginalFilename();
+
+            file.transferTo(new File(uploadPath + "/" + resultFilename));
+
+            user.setProfileImage(resultFilename);
+        }
     }
 }

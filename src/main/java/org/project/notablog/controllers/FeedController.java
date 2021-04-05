@@ -2,63 +2,75 @@ package org.project.notablog.controllers;
 
 import org.project.notablog.domains.Message;
 import org.project.notablog.domains.User;
+import org.project.notablog.domains.dto.MessageDto;
 import org.project.notablog.repos.MessageRepo;
 import org.project.notablog.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 @Controller
-public class MainController {
+public class FeedController {
     @Autowired
     MessageService messageService;
 
     @Autowired
     private MessageRepo messageRepo;
 
-    @Value("${upload.path}")
-    private String uploadPath;
+    @GetMapping("/feed")
+    public String feed(
+            @RequestParam(required = false, defaultValue = "") String filter,
+            Model model,
+            @PageableDefault(sort = {"date"}, direction = Sort.Direction.DESC) Pageable pageable,
+            @AuthenticationPrincipal User user
+    ) {
+        Page<MessageDto> page = messageService.userFeed(filter, pageable, user);
 
-    @GetMapping("/")
-    public String greeting(Model model) {
-        return "greeting";
+
+        model.addAttribute("page", page);
+        model.addAttribute("url", "/main");
+        model.addAttribute("filter", filter);
+
+        return "feed";
     }
 
-    @GetMapping("/main")
+    @GetMapping("/")
     public String main(
             @RequestParam(required = false, defaultValue = "") String filter,
-            Model model
-    ) {
-        Iterable<Message> messages = messageRepo.findAll();
+            Model model,
+            @PageableDefault(sort = {"date"}, direction = Sort.Direction.DESC) Pageable pageable,
+            @AuthenticationPrincipal User user
+            ) {
+        Page<MessageDto> page = messageService.messageList(filter, pageable, user);
 
-        if (filter != null && !filter.isEmpty()) {
-            messages = messageRepo.findByTag(filter);
-        } else {
-            messages = messageRepo.findAll();
-        }
-
-
-        model.addAttribute("messages", messages);
+        model.addAttribute("page", page);
+        model.addAttribute("url", "/main");
         model.addAttribute("filter", filter);
 
         return "main";
     }
 
-    @PostMapping("/main")
+    @PostMapping("/")
     public String add(
                 @AuthenticationPrincipal User user,
                 @Valid Message message,
@@ -77,7 +89,7 @@ public class MainController {
             Iterable<Message> messages = messageRepo.findAll();
 
             model.addAttribute("messages", messages);
-            return "main";
+            return "/";
 
         } else {
             message.setDate(date);
@@ -89,7 +101,7 @@ public class MainController {
             Iterable<Message> messages = messageRepo.findAll();
 
             model.addAttribute("messages", messages);
-            return "redirect:/main";
+            return "redirect:/";
         }
 
     }

@@ -19,6 +19,6 @@
 </head>
 
 <body class="text-center">
-<@l.login "/registration" true/>
+<@l.login "/registration" true />
 </body>
 </html>

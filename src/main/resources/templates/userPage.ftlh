@@ -1,5 +1,6 @@
 <#import "parts/common.ftlh" as common>
 <#include "parts/security.ftlh">
+<#import "parts/pager.ftlh" as p>
 
 <@common.page>
     <div class="container">
@@ -17,6 +18,11 @@
                     <img width="50" class="mr-3" src="/images/iconfinder_avatar_1814089.png">
                     <div class="media-body">
                         <h3 class="mt-0">${author.username}</h3>
+                        <#if author.profileImage??>
+                            <hr>
+                            <img src="/img/${author.profileImage}" class="img-fluid rounded" alt="">
+                            <hr>
+                        </#if>
                         <#if !isCurrentUser>
                             <#if isSubscriber>
                                 <a class="btn btn-info my-2" href="/user/${author.id}/unsubscribe">Unsubscribe</a> <br>
@@ -41,3 +47,4 @@
         </div><!-- /.row -->
     </div>
 </@common.page>
+<@p.pager url page />

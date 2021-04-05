@@ -14,12 +14,12 @@
 
                 <div class="collapse <#if message??>show</#if>" id="AddMessageForm">
                     <div class="form-group mt-3">
-                        <form method="post" enctype="multipart/form-data">
+                        <form method="post" action="/" enctype="multipart/form-data">
                             <div class="form-group">
                                 <input type="text"
                                        class="form-control ${(postTitleError??)?string('is-invalid', '')}"
                                        value="<#if message??>${message.postTitle}</#if>"
-                                       name="postTitle" placeholder="Enter title">
+                                       name="postTitle" placeholder="Enter title"/>
                                 <#if postTitleError??>
                                     <div class="invalid-feedback">
                                         ${postTitleError}
@@ -40,7 +40,7 @@
                                 <input type="text"
                                        class="form-control ${(tagError??)?string('is-invalid', '')}"
                                        value="<#if message??>${message.tag}</#if>"
-                                       name="tag" placeholder="Enter tag">
+                                       name="tag" placeholder="Enter tag"/>
                                 <#if tagError??>
                                     <div class="invalid-feedback">
                                         ${tagError}
@@ -51,10 +51,10 @@
                                 <div class="custom-file">
                                     <label class="custom-file-label" for="messageFile">Choose file</label>
                                     <input type="file" class="custom-file-input" name="file"
-                                           id="messageFile">
+                                           id="messageFile"/>
                                 </div>
                             </div>
-                            <input type="hidden" name="_csrf" value="${_csrf.token}">
+                            <input type="hidden" name="_csrf" value="${_csrf.token}"/>
                             <input type="hidden" name="id" value="<#if message??>${message.id} <#else>-1</#if>" />
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary">Send</button>

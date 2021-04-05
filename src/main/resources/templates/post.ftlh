@@ -35,12 +35,18 @@
 
                     <br>
 
-                    <h5 class="blog-post-meta">
-                        Comments:
-                    </h5>
+                    <#if hasComments>
+                        <h5 class="blog-post-meta">
+                            Comments:
+                        </h5>
 
-                    <hr>
-                    <br>
+                        <hr>
+                        <br>
+                    <#else>
+                        <h5 class="blog-post-meta">
+                            No comments yet
+                        </h5>
+                    </#if>
 
                     <#list comments as comment>
                         <div class="media mb-4">
@@ -50,6 +56,7 @@
                                 ${comment.text?no_esc}
                                 <hr>
                                 <p class="blog-post-meta">${message.date?datetime}</p>
+                                <a href="/post/comment/delete/${comment.getId()}">Delete comment</a>
                             </div>
 
                         </div>

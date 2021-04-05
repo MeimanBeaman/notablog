@@ -1,9 +1,13 @@
 package org.project.notablog.domains;
 
 import org.hibernate.validator.constraints.Length;
+import org.project.notablog.domains.util.MessageHelper;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Message {
@@ -19,7 +23,6 @@ public class Message {
     @Length(max = 4096, message = "Message too long (more than 4096 symbols)")
     private String text;
 
-
     @Length(max = 64, message = "Tag too long")
     private String tag;
 
@@ -31,6 +34,14 @@ public class Message {
     private User author;
 
     private String filename;
+
+    @ManyToMany
+    @JoinTable(
+            name = "message_likes",
+            joinColumns = { @JoinColumn(name = "message_id") },
+            inverseJoinColumns = { @JoinColumn(name = "user_id")}
+    )
+    private Set<User> likes = new HashSet<>();
 
     public Message() {
     }
@@ -44,7 +55,7 @@ public class Message {
     }
 
     public String getAuthorName() {
-        return author != null ? author.getUsername() : "<no author>";
+        return MessageHelper.getAuthorName(author);
     }
 
     public Long getId() {
@@ -56,7 +67,7 @@ public class Message {
     }
 
     public String getText() {
-        return text.replace("\n", "<br>");
+        return text;
     }
 
     public void setText(String text) {
@@ -102,4 +113,14 @@ public class Message {
     public void setPostTitle(String postTitle) {
         this.postTitle = postTitle;
     }
+
+    public Set<User> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Set<User> likes) {
+        this.likes = likes;
+    }
+
+
 }

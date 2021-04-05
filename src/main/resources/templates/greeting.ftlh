@@ -7,6 +7,7 @@
             text-align: center; /* Выравнивание по центру */
         }
     </style>
+    <h3 align="center">Hi!</h3>
     <p class="fig">
         <img align="center" class="img-fluid rounded" src="/images/original.gif">
     </p>

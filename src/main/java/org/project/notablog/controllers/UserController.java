@@ -2,11 +2,17 @@ package org.project.notablog.controllers;
 
 import org.project.notablog.domains.Message;
 import org.project.notablog.domains.User;
+import org.project.notablog.domains.dto.MessageDto;
 import org.project.notablog.repos.MessageRepo;
+import org.project.notablog.repos.UserRepo;
 import org.project.notablog.service.MessageService;
 import org.project.notablog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,11 +21,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Set;
 
 @Controller
 @RequestMapping("/user")
 public class UserController {
+    @Autowired
+    private UserRepo userRepo;
+
     @Autowired
     private MessageRepo messageRepo;
 
@@ -30,9 +38,9 @@ public class UserController {
     MessageService messageService;
 
     @GetMapping("profile")
-    public String getProfile(Model model, @AuthenticationPrincipal User user) {
-        model.addAttribute("username", user.getUsername());
-        model.addAttribute("email", user.getEmail());
+    public String getProfile(@AuthenticationPrincipal User user,
+                             Model model) {
+        model.addAttribute("user", user);
 
         return "userProfile";
     }
@@ -41,10 +49,11 @@ public class UserController {
     public String updateProfile(
             @AuthenticationPrincipal User user,
             @RequestParam String email,
-            @RequestParam String password
-    )
-    {
-        userService.updateProfile(user, email, password);
+            @RequestParam String password,
+            @RequestParam("file") MultipartFile pfp
+    ) throws IOException {
+
+        userService.updateProfile(user, email, password, pfp);
 
         return "redirect:/user/profile";
     }
@@ -54,23 +63,25 @@ public class UserController {
             @AuthenticationPrincipal User currentUser,
             @PathVariable User user,
             Model model,
+            @PageableDefault(sort = {"date"}, direction = Sort.Direction.DESC) Pageable pageable,
             @RequestParam(required = false) Message message
     )
     {
-        Set<Message> messages = user.getMessages();
+        Page<MessageDto> page = messageService.messageListForUser(pageable, currentUser, user);
 
         model.addAttribute("author", user);
         model.addAttribute("SubscriptionsCount", user.getSubscriptions().size());
         model.addAttribute("SubscribersCount", user.getSubscribers().size());
         model.addAttribute("isSubscriber", user.getSubscribers().contains(currentUser));
-        model.addAttribute("messages", messages);
+        model.addAttribute("page", page);
         model.addAttribute("message", message);
         model.addAttribute("isCurrentUser", currentUser.equals(user));
-
+        model.addAttribute("url", "/user/" + user.getId());
 
         return "userPage";
     }
 
+    //TODO Пофиксить (не создаются новые посты)
     @PostMapping("{user}")
     public String updateMessage(
             @AuthenticationPrincipal User currentUser,
@@ -119,13 +130,14 @@ public class UserController {
         return "redirect:/user/" + user.getId();
     }
 
-    @GetMapping("{type}/{user}/list")
+    @GetMapping("{user}/{type}/list")
     public String userList(
             Model model,
             @PathVariable User user,
             @PathVariable String type
     ) {
-        model.addAttribute("userChannel", user);
+
+        model.addAttribute("author", user);
         model.addAttribute("type", type);
 
         if ("subscriptions".equals(type)) {

@@ -1,7 +1,6 @@
 <#import "parts/common.ftlh" as common>
 
 <@common.page>
-
     <div class="container">
         <div class="row mt-3">
 
@@ -30,11 +29,7 @@
                 </table>
                 <p><a href="/main">Main page</a></p>
                 <#--</div>-->
-
-
             </div><!-- /.blog-main -->
-
         </div><!-- /.row --></div>
-
 </@common.page>
 

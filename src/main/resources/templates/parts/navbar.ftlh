@@ -18,7 +18,7 @@
             <ul class="navbar-nav ml-auto">
                 <#if know>
                     <li class="nav-item">
-                        <form method="get" action="/main" class="input-group">
+                        <form method="get" action="/" class="input-group">
                             <input type="text" name="filter" class="form-control" value="${filter?ifExists}"
                                    placeholder="Search by tag" />
                             <span class="input-group-append">
@@ -30,6 +30,9 @@
 
                 <li class="nav-item <#--active-->">
                     <a class="nav-link" href="/feed">My feed</a>
+                </li>
+                <li class="nav-item <#--active-->">
+                    <a class="nav-link" href="/projects/">Projects</a>
                 </li>
                 <#if know>
                 <li class="nav-item <#--active-->">

@@ -8,11 +8,11 @@
             <div class="card-body">
 
 
-                <a class="btn btn-secondary" data-toggle="collapse" href="#AddMessageForm" role="button">
-                    Add new message
-                </a>
+<#--                <a class="btn btn-secondary" data-toggle="collapse" href="#AddMessageForm" role="button">-->
+<#--                    Add new message-->
+<#--                </a>-->
 
-                <div class="collapse <#if message??>show</#if>" id="AddMessageForm">
+                <div class=" <#if message??>show</#if>" id="AddMessageForm">
                     <div class="form-group mt-3">
                         <form method="post" action="/" enctype="multipart/form-data">
                             <div class="form-group">

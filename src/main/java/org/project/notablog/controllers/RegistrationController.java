@@ -31,20 +31,24 @@ public class RegistrationController {
             @Valid User user,
             BindingResult bindingResult,
             Model model) {
-        boolean isPasswordConfirmEmpty = StringUtils.isEmpty(passwordConfirm);
+        boolean isPasswordConfirmEmpty =
+                StringUtils.isEmpty(passwordConfirm);
 
         if (isPasswordConfirmEmpty) {
             model.addAttribute("passwordConfirmError", "Password confirmation cannot be empty");
 
         }
 
-        if (user.getPassword() != null && !user.getPassword().equals(passwordConfirm)) {
+        if (user.getPassword() != null &&
+                !user.getPassword()
+                        .equals(passwordConfirm)) {
             model.addAttribute("passwordError", "Passwords are different");
 
             return "registration";
         }
 
-        if (isPasswordConfirmEmpty || bindingResult.hasErrors()) {
+        if (isPasswordConfirmEmpty ||
+                bindingResult.hasErrors()) {
             Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
             model.addAttribute("map", errors);
 

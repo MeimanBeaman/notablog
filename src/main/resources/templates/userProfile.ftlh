@@ -26,7 +26,7 @@
                 </div>
                 <#if user.profileImage??>
                     <hr>
-                    <img src="/img/${user.profileImage}" class="img-fluid rounded" alt="">
+                    <img src="/img/${user.profileImage}" width="500" class="img-fluid rounded" alt="">
                     <hr>
                 </#if>
                 <div class="form-group row">
@@ -45,4 +45,5 @@
         </div><!-- /.blog-main -->
 
     </div><!-- /.row -->
+
 </@common.page>

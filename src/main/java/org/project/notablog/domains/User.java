@@ -21,6 +21,8 @@ public class User implements UserDetails {
     @NotBlank(message = "Username cannot be empty")
     private String username;
 
+    private String position;
+
     @NotBlank(message = "Password cannot be empty")
     private String password;
 
@@ -55,16 +57,18 @@ public class User implements UserDetails {
     )
     private Set<User> subscriptions = new HashSet<>();
 
+
     private String profileImage;
 
     public User() {
     }
 
-    public User(String username, String password, boolean active, Set<Role> roles) {
+    public User(String username, String position, String password, boolean active, Set<Role> roles) {
         this.username = username;
         this.password = password;
         this.active = active;
         this.roles = roles;
+        this.position = position;
     }
 
     @Override
@@ -197,5 +201,13 @@ public class User implements UserDetails {
 
     public void setProfileImage(String profileImage) {
         this.profileImage = profileImage;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
     }
 }

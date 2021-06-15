@@ -48,7 +48,7 @@
                         </div>
                         <#if message.filename??>
                             <hr>
-                            <img src="/img/${message.filename}" class="img-fluid rounded" alt="">
+                            <img src="/img/${message.filename}" width="500" class="img-fluid rounded" alt="">
                             <hr>
                         </#if>
                         <div class="form-group">

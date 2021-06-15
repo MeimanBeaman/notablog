@@ -50,6 +50,7 @@
         <input type="email" name="email" value="<#if user??>${user.email}</#if>"
                class="form-control ${(emailError??)?string('is-invalid', '')}"
                placeholder="some@example.com" required>
+
         <#if emailError??>
             <div class="invalid-feedback">
                 ${emailError}

@@ -14,7 +14,7 @@
     <#else>
         <#assign body = 1..page.getTotalPages()>
     </#if>
-    <div class="container mt-3">
+    <div class="container mt-4">
         <div class="row">
             <ul class="pagination col-justify-content-center">
                 <li class="page-item disabled">

@@ -4,12 +4,14 @@
 <#list page.content as message>
     <div class="mt-4" id="${message.id}">
         <!-- Post title -->
-        <h1 class="mt-4">${message.postTitle}</h1>
+        <h3 class="mt-4">${message.postTitle}</h3>
         <p class="lead">
             by
-            <a href="/user/${message.author.id}">${message.authorName}</a>
+            <a href="/user/${message.author.id}">${message.authorName}</a>, ${message.author.position}
             <#if message.author.profileImage??>
-                <img width="25" src="/img/${message.author.profileImage}"/>
+                <img width="30" src="/img/${message.author.profileImage}"/>
+            <#else>
+                <img width="30" src="/images/iconfinder_avatar_1814089.png">
             </#if>
         </p>
         <hr/>
@@ -21,13 +23,15 @@
 
         <!-- Post Image -->
         <#if message.filename??>
-            <img width="500" src="/img/${message.filename}" class="img-fluid rounded" alt=""/>
+            <img src="/img/${message.filename}" width="500" class="img-fluid rounded" alt=""/>
             <hr/>
         </#if>
 
         <#-- Post text -->
         <p/>
-        <p class="card-text">${message.text?replace("\n", "<br/>")?no_esc}</p>
+        <div>
+            <p class="card-text">${message.text?replace("\n", "<br/>")?no_esc}</p>
+        </div>
 
         <hr/>
 
@@ -60,6 +64,6 @@
 
     </div>
 <#else>
-    <h4 class="h4">Messages not found</h4>
+    <h4 class="my-3">Messages not found</h4>
 </#list>
 

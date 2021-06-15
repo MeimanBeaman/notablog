@@ -2,11 +2,13 @@ package org.project.notablog.controllers;
 
 import org.project.notablog.domains.Role;
 import org.project.notablog.domains.User;
+import org.project.notablog.repos.UserRepo;
 import org.project.notablog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -18,6 +20,9 @@ import java.util.Map;
 public class AdminController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserRepo userRepo;
 
     @GetMapping
     public String userList(Model model) {
@@ -38,10 +43,12 @@ public class AdminController {
     public String userSave(
             @RequestParam String username,
             @RequestParam Map<String, String> form,
+            @RequestParam String position,
             @RequestParam("userId") User user)
     {
-        userService.saveUser(user, username, form);
+        userService.saveUser(user, username, position, form);
 
         return "redirect:/admin";
     }
+
 }

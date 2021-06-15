@@ -14,11 +14,13 @@
 
         <title>Not a Blog</title>
         <link rel="icon" type="image/x-icon" href="/images/hand-drawn-pencil-icon.svg"/>
+        <!-- production-версия, оптимизированная для размера и скорости -->
+        <#--<script src="https://cdn.jsdelivr.net/npm/vue@2"></script>-->
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/turbolinks/5.2.0/turbolinks.js" integrity="sha512-G3jAqT2eM4MMkLMyQR5YBhvN5/Da3IG6kqgYqU9zlIH4+2a+GuMdLb5Kpxy6ItMdCfgaKlo2XFhI0dHtMJjoRw==" crossorigin="anonymous"></script>
-        <link href="https://startbootstrap.github.io/startbootstrap-blog-post/css/blog-post.css" rel="stylesheet"/>
-        <link href="https://startbootstrap.github.io/startbootstrap-blog-post/vendor/bootstrap/css/bootstrap.min.css"
-              rel="stylesheet"/>
+        <#--<script src="https://cdnjs.cloudflare.com/ajax/libs/turbolinks/5.2.0/turbolinks.js" integrity="sha512-G3jAqT2eM4MMkLMyQR5YBhvN5/Da3IG6kqgYqU9zlIH4+2a+GuMdLb5Kpxy6ItMdCfgaKlo2XFhI0dHtMJjoRw==" crossorigin="anonymous"></script>-->
+        <link href="/css/blog-post.css" rel="stylesheet"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
         <style>
@@ -75,6 +77,7 @@
         </div>
         <!-- /.container -->
     </footer>
+
 
     <script src="/javascript/bootstrap.js"></script>
 

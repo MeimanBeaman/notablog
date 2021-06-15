@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/user")
@@ -37,10 +38,12 @@ public class UserController {
     @Autowired
     MessageService messageService;
 
+    //TODO Разобраться, почему у @AuthenticationPrincipal User currentUser не обновляется profileImage
     @GetMapping("profile")
-    public String getProfile(@AuthenticationPrincipal User user,
+    public String getProfile(@AuthenticationPrincipal User currentUser,
                              Model model) {
-        model.addAttribute("user", user);
+        Optional<User> user = userRepo.findById(currentUser.getId());
+        model.addAttribute("user", user.get());
 
         return "userProfile";
     }

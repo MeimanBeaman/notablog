@@ -14,7 +14,11 @@
                     <p class="lead">
                         by
                         <a href="#">${message.authorName}</a>
-                        <img width="25" src="/images/iconfinder_avatar_1814089.png">
+                        <#if message.author.profileImage??>
+                            <img width="30" src="/img/${message.author.profileImage}"/>
+                        <#else>
+                            <img width="30" src="/images/iconfinder_avatar_1814089.png">
+                        </#if>
                     </p>
                     <hr>
 
@@ -49,16 +53,25 @@
                     </#if>
 
                     <#list comments as comment>
-                        <div class="media mb-4">
-                            <img width="50" class="mr-3" src="/images/iconfinder_avatar_1814089.png">
-                            <div class="media-body">
-                                <h5 class="mt-0">${comment.user.username}</h5>
-                                ${comment.text?no_esc}
-                                <hr>
-                                <p class="blog-post-meta">${message.date?datetime}</p>
-                                <a href="/post/comment/delete/${comment.getId()}">Delete comment</a>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="media mb-4">
+                                    <#if message.author.profileImage??>
+                                        <img width="50" class="img-fluid rounded" src="/img/${message.author.profileImage}"/>
+                                    <#else>
+                                        <img width="50" src="/images/iconfinder_avatar_1814089.png">
+                                    </#if>
+                                    <div class="media-body ml-3">
+                                        <h5 class="mt-0">${comment.user.username}</h5>
+                                        ${comment.text?replace("\n", "<br/>")?no_esc}
+                                        <hr>
+                                        <p class="blog-post-meta">${message.date?datetime} <a href="/post/comment/delete/${comment.getId()}">
+                                                Delete comment
+                                            </a>
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
-
                         </div>
                     </#list>
 

@@ -9,6 +9,10 @@
 
             <!-- Post Content Column -->
             <div class="col-lg-8" id="message-list">
+                <div class="my-3">
+                    <h5> Last updates:</h5>
+                </div>
+                <hr/>
                 <#include "parts/messageList.ftlh">
                 <@p.pager "" page />
             </div><!-- /.blog-main -->

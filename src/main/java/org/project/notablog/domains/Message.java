@@ -16,7 +16,7 @@ public class Message {
     private Long id;
 
     @NotBlank(message = "Fill the title")
-    @Length(max = 255, message = "Title too long (more than 4096 symbols)")
+    @Length(max = 255, message = "Title too long (more than 255 symbols)")
     private String postTitle;
 
     @NotBlank(message = "Fill the message")

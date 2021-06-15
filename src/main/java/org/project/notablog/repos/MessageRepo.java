@@ -5,11 +5,9 @@ import org.project.notablog.domains.User;
 import org.project.notablog.domains.dto.MessageDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
-import org.springframework.transaction.annotation.Transactional;
 
 public interface MessageRepo extends CrudRepository<Message, Long> {
 
@@ -67,4 +65,5 @@ public interface MessageRepo extends CrudRepository<Message, Long> {
     Page<MessageDto> findBySubscriptionByTag(@Param("tag") String tag, Pageable pageable, @Param("user") User user);
 
     void deleteMessageById(Long id);
+
 }

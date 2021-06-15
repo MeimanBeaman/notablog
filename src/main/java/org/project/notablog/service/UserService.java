@@ -64,6 +64,7 @@ public class UserService implements UserDetailsService {
 
         user.setActive(false);
         user.setRoles(Collections.singleton(Role.USER));
+        user.setPosition("not assigned");
         user.setActivationCode(UUID.randomUUID().toString());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepo.save(user);
@@ -106,8 +107,9 @@ public class UserService implements UserDetailsService {
         return userRepo.findAll();
     }
 
-    public void saveUser(User user, String username, Map<String, String> form) {
+    public void saveUser(User user, String username, String position, Map<String, String> form) {
         user.setUsername(username);
+        user.setPosition(position);
         //TODO разобрать этот код
         Set<String> roles = Arrays.stream(Role.values())
                 .map(Role::name)

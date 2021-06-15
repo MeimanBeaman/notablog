@@ -14,6 +14,9 @@
                         <div class="form-group">
                             <input type="text" class="form-control" value="${user.username}" name="username">
                         </div>
+                        <div>
+                            <input type="text" class="form-control" value="${user.position}" name="position">
+                        </div>
                         <#list roles as role>
                             <div class=class="form-group">
                                 <label class="form-group ml-4"><input type="checkbox" class="form-check-input"

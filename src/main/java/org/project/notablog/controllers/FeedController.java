@@ -6,7 +6,6 @@ import org.project.notablog.domains.dto.MessageDto;
 import org.project.notablog.repos.MessageRepo;
 import org.project.notablog.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -17,17 +16,11 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.util.UriComponents;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
 
 @Controller
 public class FeedController {
@@ -53,6 +46,7 @@ public class FeedController {
 
         return "feed";
     }
+
 
     @GetMapping("/")
     public String main(
@@ -84,7 +78,7 @@ public class FeedController {
         //TODO Разобрать еще раз
         if (bindingResult.hasErrors()) {
             Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
-            model.mergeAttributes(errorsMap);
+            model. mergeAttributes(errorsMap);
 
             Iterable<Message> messages = messageRepo.findAll();
 
